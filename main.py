@@ -67,10 +67,8 @@ def main() -> None:
         annotatedFrame: np.ndarray
         currTime: float
         instantFPS: float
-        key: int
         prevTime: float
         smoothedFPS: float = 0.00
-        bootTimeStart: float = 0.00
         
         success, frame = mainCamera.read() # outputs an array of the current frame and a boolean for success/failure
 
@@ -79,7 +77,7 @@ def main() -> None:
             break
 
         # Run YOLO pose estimation on the OpenCV BGR frame.
-        frameResult = model.predict(source=frame, conf=confidence, imgsz=resolution, verbose=False)
+        frameResult = model.predict(source=frame, conf=confidence, imgsz=resolution, verbose=False) # change verbose to True to display model performance metrics
 
         # Draw bounding boxes, keypoints, and skeletons.
         annotatedFrame = frameResult[0].plot()
@@ -102,7 +100,7 @@ def main() -> None:
         if not bootMeasured:
             bootTimeEnd = time.perf_counter()
             bootTime = bootTimeEnd - bootTimeStart
-            print(f"[Main] Boot time to first output: {bootTime:.2f} milliseconds")
+            print(f"[Main] Boot time to first output: {bootTime:.2f} second")
             bootMeasured = True
             del bootTimeStart
             del bootTimeEnd
